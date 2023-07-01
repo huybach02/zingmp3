@@ -5,13 +5,14 @@ module.exports = {
     extend: {
       colors: {
         textWhite: "#fff",
-        textGrey: "#dadada",
+        textGrey: "#8b8791",
         primary: "#170f23",
         secondary: "#2a213a",
         third: "#40384e",
         control: "#130c1c",
         select: "#9b4de0",
         rightBar: "#120822",
+        premium: "#e5ac1a",
       },
       keyframes: {
         "slide-right": {

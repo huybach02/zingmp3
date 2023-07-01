@@ -1,11 +1,13 @@
 import React, {useEffect} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {getArraySlider} from "../utils/helper";
-import {setCurrentSongId} from "../store/action/music";
+import {play, setCurrentSongId} from "../store/action/music";
+import {useNavigate} from "react-router-dom";
 
 const Slider = () => {
   const {banner} = useSelector((state) => state.app);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const sliderEls = document.getElementsByClassName("slider-item");
@@ -69,8 +71,12 @@ const Slider = () => {
   }, []);
 
   const handleClickBanner = (item) => {
-    if (item.type === 1) {
+    if (item?.type === 1) {
       dispatch(setCurrentSongId(item.encodeId));
+      dispatch(play(true));
+    } else if (item?.type === 4) {
+      const albumPath = item?.link?.split(".")[0];
+      navigate(albumPath);
     }
   };
 

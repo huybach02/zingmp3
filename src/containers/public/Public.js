@@ -1,17 +1,20 @@
 import React from "react";
 import {Outlet} from "react-router-dom";
-import {SidebarLeft, SidebarRight} from "../../components";
+import {Header, SidebarLeft, SidebarRight} from "../../components";
 import Player from "../../components/Player";
 
 const Public = () => {
   return (
-    <div className="w-full min-h-screen flex flex-col">
-      <div className="w-full h-full flex flex-auto">
-        <div className="w-[240px]  flex-none bg-[#2a213a]">
+    <div className="w-full relative h-screen flex flex-col">
+      <div className="w-full h-full flex flex-auto ">
+        <div className="w-[240px] h-full flex-none bg-[#2a213a]">
           <SidebarLeft />
         </div>
 
-        <div className="flex-auto bg-primary">
+        <div className="flex-auto bg-primary ">
+          <div className="h-[70px] bg-primary px-[59px] flex items-center mb-5">
+            <Header />
+          </div>
           <Outlet />
         </div>
 
@@ -20,7 +23,7 @@ const Public = () => {
         </div>
       </div>
 
-      <div className="flex-none h-[90px] bg-control">
+      <div className="fixed bottom-0 left-0 right-0 h-[90px] bg-control ">
         <Player />
       </div>
     </div>

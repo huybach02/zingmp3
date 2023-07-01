@@ -29,3 +29,18 @@ export const getDetailSong = (songId) =>
       reject(error);
     }
   });
+
+export const getDetailPlaylist = (playlistId) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const res = await axios({
+        url: "/detailplaylist",
+        method: "GET",
+        params: {id: playlistId},
+      });
+
+      resolve(res);
+    } catch (error) {
+      reject(error);
+    }
+  });

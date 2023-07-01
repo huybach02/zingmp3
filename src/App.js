@@ -5,6 +5,7 @@ import {useEffect} from "react";
 import {getHomeData} from "./store/action/home";
 import {useDispatch} from "react-redux";
 import MyMusic from "./containers/public/MyMusic";
+import Album from "./containers/public/Album";
 
 function App() {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ function App() {
           <Route path={path.HOME} element={<Home />} />
           <Route path={path.LOGIN} element={<Login />} />
           <Route path={path.MY_MUSIC} element={<MyMusic />} />
+          <Route path={path.ALBUM_TITLE_ID} element={<Album />} />
 
           <Route path={path.STAR} element={<Home />} />
         </Route>
