@@ -13,6 +13,7 @@ module.exports = {
         select: "#9b4de0",
         rightBar: "#120822",
         premium: "#e5ac1a",
+        progress: "#595460",
       },
       keyframes: {
         "slide-right": {

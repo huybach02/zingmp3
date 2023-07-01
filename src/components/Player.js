@@ -3,6 +3,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {getDetailSong, getSong} from "../api/music";
 import icons from "../utils/icon";
 import {play} from "../store/action/music";
+import moment from "moment";
+import {toast} from "react-toastify";
 
 const {
   AiFillHeart,
@@ -16,12 +18,16 @@ const {
   BsPauseCircle,
 } = icons;
 
+var intervalId;
+
 const Player = () => {
   const {currentSongId, isPlaying} = useSelector((state) => state.music);
   console.log("isPlaying: ", isPlaying);
   const [songInfo, setSongInfo] = useState(null);
-  const [source, setSource] = useState(null);
-  const audioElement = useRef(new Audio());
+  const [audio, setAudio] = useState(new Audio());
+  const [current, setCurrent] = useState(0);
+  const thumbRef = useRef();
+  const trackRef = useRef();
 
   const dispatch = useDispatch();
 
@@ -35,7 +41,14 @@ const Player = () => {
         setSongInfo(res1?.data?.data);
       }
       if (res2.data.err === 0) {
-        setSource(res2?.data?.data["128"]);
+        audio.pause();
+        setAudio(new Audio(res2?.data?.data["128"]));
+      } else {
+        setAudio(new Audio());
+        dispatch(play(false));
+        toast.warn(res2?.data.msg);
+        setCurrent(0);
+        thumbRef.current.style.cssText = `right: 100%`;
       }
     };
 
@@ -43,22 +56,38 @@ const Player = () => {
   }, [currentSongId]);
 
   useEffect(() => {
-    audioElement.current.pause();
-    audioElement.current.src = source;
-    audioElement.current.load();
+    intervalId && clearInterval(intervalId);
+    audio.pause();
+    audio.load();
     if (isPlaying) {
-      audioElement.current.play();
+      audio.play();
+      intervalId = setInterval(() => {
+        let percent =
+          Math.round((audio.currentTime / songInfo?.duration) * 10000) / 100;
+        thumbRef.current.style.cssText = `right: ${100 - percent}%`;
+        setCurrent(Math.round(audio.currentTime));
+      }, 200);
     }
-  }, [currentSongId, source, audioElement, isPlaying]);
+  }, [audio, isPlaying]);
 
   const handleTogglePlayMusic = () => {
     if (isPlaying) {
-      audioElement.current.pause();
+      audio.pause();
       dispatch(play(false));
     } else {
-      audioElement.current.play();
+      audio.play();
       dispatch(play(true));
     }
+  };
+
+  const handleProgress = (e) => {
+    const trackRect = trackRef.current.getBoundingClientRect();
+    const percent = Math.round(
+      ((e.clientX - trackRect.left) * 10000) / trackRect.width / 100
+    );
+    thumbRef.current.style.cssText = `right: ${100 - percent}%`;
+    audio.currentTime = (percent * songInfo?.duration) / 100;
+    setCurrent(Math.round((percent * songInfo?.duration) / 100));
   };
 
   return (
@@ -100,9 +129,9 @@ const Player = () => {
           </span>
           <span className="hover:text-select" onClick={handleTogglePlayMusic}>
             {isPlaying ? (
-              <BsPauseCircle size={40} />
+              <BsPauseCircle size={38} />
             ) : (
-              <BsPlayCircle size={40} />
+              <BsPlayCircle size={38} />
             )}
           </span>
           <span className="p-2 rounded-full hover:bg-[#282230]">
@@ -116,7 +145,24 @@ const Player = () => {
           </span>
         </div>
 
-        <div>progress</div>
+        <div className="w-full flex items-center justify-around">
+          <span className="text-[12px]">
+            {moment.utc(current * 1000).format("mm:ss")}
+          </span>
+          <div
+            ref={trackRef}
+            className="w-4/5 h-[3px] hover:h-[6px] cursor-pointer bg-progress relative rounded-lg"
+            onClick={handleProgress}
+          >
+            <div
+              ref={thumbRef}
+              className="absolute top-0 left-0 bottom-0 bg-white rounded-lg transition-all"
+            ></div>
+          </div>
+          <span className="text-[12px]">
+            {moment.utc(songInfo?.duration * 1000).format("mm:ss")}
+          </span>
+        </div>
       </div>
 
       <div className="w-[30%] flex-auto">Volume</div>

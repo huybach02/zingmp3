@@ -6,6 +6,8 @@ import {getHomeData} from "./store/action/home";
 import {useDispatch} from "react-redux";
 import MyMusic from "./containers/public/MyMusic";
 import Album from "./containers/public/Album";
+import {ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,10 +25,23 @@ function App() {
           <Route path={path.LOGIN} element={<Login />} />
           <Route path={path.MY_MUSIC} element={<MyMusic />} />
           <Route path={path.ALBUM_TITLE_ID} element={<Album />} />
+          <Route path={path.PLAYLIST_TITLE_ID} element={<Album />} />
 
           <Route path={path.STAR} element={<Home />} />
         </Route>
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }
