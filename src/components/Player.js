@@ -57,6 +57,19 @@ const Player = () => {
 
   useEffect(() => {
     intervalId && clearInterval(intervalId);
+    if (isPlaying) {
+      audio.play();
+      intervalId = setInterval(() => {
+        let percent =
+          Math.round((audio.currentTime / songInfo?.duration) * 10000) / 100;
+        thumbRef.current.style.cssText = `right: ${100 - percent}%`;
+        setCurrent(Math.round(audio.currentTime));
+      }, 200);
+    }
+  }, [isPlaying]);
+
+  useEffect(() => {
+    intervalId && clearInterval(intervalId);
     audio.pause();
     audio.load();
     if (isPlaying) {
@@ -68,7 +81,7 @@ const Player = () => {
         setCurrent(Math.round(audio.currentTime));
       }, 200);
     }
-  }, [audio, isPlaying]);
+  }, [audio]);
 
   const handleTogglePlayMusic = () => {
     if (isPlaying) {
