@@ -23,10 +23,10 @@ var intervalId;
 const Player = () => {
   const {currentSongId, isPlaying, songs} = useSelector((state) => state.music);
   const [songInfo, setSongInfo] = useState(null);
-  console.log("songInfo: ", songInfo);
   const [audio, setAudio] = useState(new Audio());
   const [current, setCurrent] = useState(0);
   const [isShuffle, setIsShuffle] = useState(false);
+  const [isRepeat, setIsRepeat] = useState(false);
   const thumbRef = useRef();
   const trackRef = useRef();
 
@@ -76,7 +76,7 @@ const Player = () => {
     intervalId && clearInterval(intervalId);
     audio.pause();
     audio.load();
-    if (isPlaying) {
+    if (isPlaying && thumbRef.current) {
       audio.play();
       intervalId = setInterval(() => {
         let percent =
@@ -86,6 +86,25 @@ const Player = () => {
       }, 200);
     }
   }, [audio]);
+
+  useEffect(() => {
+    const handleEnded = () => {
+      console.log(isShuffle);
+      if (isShuffle) {
+        handleShuffle();
+      } else if (isRepeat) {
+        handleNextSong();
+      } else {
+        audio.pause();
+        dispatch(play(false));
+      }
+    };
+    audio.addEventListener("ended", handleEnded);
+
+    return () => {
+      audio.removeEventListener("ended", handleEnded);
+    };
+  }, [audio, isShuffle, isRepeat]);
 
   const handleTogglePlayMusic = () => {
     if (isPlaying) {
@@ -129,7 +148,12 @@ const Player = () => {
     }
   };
 
-  const handleShuffle = () => {};
+  const handleShuffle = () => {
+    const indexRandom = Math.round(Math.random() * (songs?.length - 1));
+    dispatch(setCurrentSongId(songs[indexRandom]?.encodeId));
+    dispatch(play(true));
+    setIsShuffle((prev) => !prev);
+  };
 
   return (
     <div className="px-5 h-full flex text-white py-2">
@@ -197,7 +221,10 @@ const Player = () => {
           </span>
           <span
             title="Bật phát lại tất cả"
-            className="p-2 rounded-full hover:bg-[#282230]"
+            className={`p-2 rounded-full hover:bg-[#282230] ${
+              !isRepeat ? "text-textGrey font-bold" : ""
+            }`}
+            onClick={() => setIsRepeat((prev) => !prev)}
           >
             <PiRepeatFill size={22} />
           </span>

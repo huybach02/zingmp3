@@ -12,7 +12,7 @@ const Public = () => {
         </div>
 
         <div className="flex-auto bg-primary ">
-          <div className="h-[70px] bg-primary px-[59px] flex items-center mb-5">
+          <div className="h-[70px] bg-primary px-[59px] flex items-center">
             <Header />
           </div>
           <Outlet />

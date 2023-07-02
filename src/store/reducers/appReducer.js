@@ -2,6 +2,7 @@ import actionTypes from "../action/actionTypes";
 
 const initState = {
   banner: [],
+  albumHot: {},
 };
 
 const appReducer = (state = initState, action) => {
@@ -10,8 +11,10 @@ const appReducer = (state = initState, action) => {
       return {
         ...state,
         banner:
-          action.homeData?.find((item) => item.sectionType === "banner")
+          action.homeData?.find((item) => item.sectionId === "hSlider")
             ?.items || null,
+        albumHot:
+          action.homeData?.find((item) => item.sectionId === "hAlbum") || {},
       };
 
     default:
