@@ -23,6 +23,7 @@ var intervalId;
 const Player = () => {
   const {currentSongId, isPlaying, songs} = useSelector((state) => state.music);
   const [songInfo, setSongInfo] = useState(null);
+  console.log("songInfo: ", songInfo);
   const [audio, setAudio] = useState(new Audio());
   const [current, setCurrent] = useState(0);
   const [isShuffle, setIsShuffle] = useState(false);
@@ -41,12 +42,14 @@ const Player = () => {
         setSongInfo(res1?.data?.data);
       }
       if (res2.data.err === 0) {
-        audio.pause();
+        if (songInfo?.streamingStatus === 1) {
+          audio.pause();
+        }
         setAudio(new Audio(res2?.data?.data["128"]));
       } else {
+        dispatch(play(false));
         audio.pause();
         setAudio(new Audio());
-        dispatch(play(false));
         toast.warn(res2?.data.msg);
         setCurrent(0);
         thumbRef.current.style.cssText = `right: 100%`;
