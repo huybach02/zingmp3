@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getDetailSong, getSong} from "../api/music";
 import icons from "../utils/icon";
-import {play} from "../store/action/music";
+import {play, setCurrentSongId} from "../store/action/music";
 import moment from "moment";
 import {toast} from "react-toastify";
 
@@ -21,11 +21,11 @@ const {
 var intervalId;
 
 const Player = () => {
-  const {currentSongId, isPlaying} = useSelector((state) => state.music);
-  console.log("isPlaying: ", isPlaying);
+  const {currentSongId, isPlaying, songs} = useSelector((state) => state.music);
   const [songInfo, setSongInfo] = useState(null);
   const [audio, setAudio] = useState(new Audio());
   const [current, setCurrent] = useState(0);
+  const [isShuffle, setIsShuffle] = useState(false);
   const thumbRef = useRef();
   const trackRef = useRef();
 
@@ -44,6 +44,7 @@ const Player = () => {
         audio.pause();
         setAudio(new Audio(res2?.data?.data["128"]));
       } else {
+        audio.pause();
         setAudio(new Audio());
         dispatch(play(false));
         toast.warn(res2?.data.msg);
@@ -103,6 +104,30 @@ const Player = () => {
     setCurrent(Math.round((percent * songInfo?.duration) / 100));
   };
 
+  const handleNextSong = () => {
+    if (songs) {
+      let currentSongIndex;
+      songs?.forEach((item, index) => {
+        if (item.encodeId === currentSongId) currentSongIndex = index;
+      });
+      dispatch(setCurrentSongId(songs[currentSongIndex + 1].encodeId));
+      dispatch(play(true));
+    }
+  };
+
+  const handlePrevSong = () => {
+    if (songs) {
+      let currentSongIndex;
+      songs?.forEach((item, index) => {
+        if (item.encodeId === currentSongId) currentSongIndex = index;
+      });
+      dispatch(setCurrentSongId(songs[currentSongIndex - 1].encodeId));
+      dispatch(play(true));
+    }
+  };
+
+  const handleShuffle = () => {};
+
   return (
     <div className="px-5 h-full flex text-white py-2">
       <div className="w-[30%] flex-auto flex items-center gap-3">
@@ -133,11 +158,21 @@ const Player = () => {
         <div className="flex gap-8 justify-center items-center cursor-pointer">
           <span
             title="Bật phát ngẫu nhiên"
-            className="p-2 rounded-full hover:bg-[#282230]"
+            className={`p-2 rounded-full hover:bg-[#282230] ${
+              !isShuffle ? "text-textGrey font-bold" : ""
+            }`}
+            onClick={() => setIsShuffle((prev) => !prev)}
           >
             <PiShuffle size={22} />
           </span>
-          <span className="p-2 rounded-full hover:bg-[#282230]">
+          <span
+            className={`${
+              !songs
+                ? "text-textGrey cursor-default"
+                : "p-2 rounded-full hover:bg-[#282230]"
+            }`}
+            onClick={handlePrevSong}
+          >
             <AiFillStepBackward size={22} />
           </span>
           <span className="hover:text-select" onClick={handleTogglePlayMusic}>
@@ -147,7 +182,14 @@ const Player = () => {
               <BsPlayCircle size={38} />
             )}
           </span>
-          <span className="p-2 rounded-full hover:bg-[#282230]">
+          <span
+            className={`${
+              !songs
+                ? "text-textGrey cursor-default"
+                : "p-2 rounded-full hover:bg-[#282230]"
+            }`}
+            onClick={handleNextSong}
+          >
             <AiFillStepForward size={22} />
           </span>
           <span

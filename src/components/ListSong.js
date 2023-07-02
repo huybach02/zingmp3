@@ -2,10 +2,13 @@ import React, {memo} from "react";
 import ListSongItem from "./ListSongItem";
 import icons from "../utils/icon";
 import moment from "moment";
+import {useSelector} from "react-redux";
 
 const {RiArrowUpDownFill} = icons;
 
-const ListSong = ({song, totalDuration, total}) => {
+const ListSong = ({totalDuration, total}) => {
+  const {songs} = useSelector((state) => state.music);
+
   return (
     <div className="w-full flex flex-col text-[12px] p-[10px] ">
       <div className="flex justify-between font-semibold text-textGrey py-[10px]">
@@ -22,7 +25,7 @@ const ListSong = ({song, totalDuration, total}) => {
       </div>
 
       <div className="flex flex-col cursor-pointer">
-        {song?.map((item) => (
+        {songs?.map((item) => (
           <div
             key={item.encodeId}
             className="py-[10px] border-t border-t-secondary hover:bg-third px-[10px] rounded-md"

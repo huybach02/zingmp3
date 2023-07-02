@@ -1,7 +1,12 @@
 import React, {useEffect} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {getArraySlider} from "../utils/helper";
-import {play, setCurrentSongId} from "../store/action/music";
+import {
+  play,
+  playAlbum,
+  setCurrentSongId,
+  setPlaylist,
+} from "../store/action/music";
 import {useNavigate} from "react-router-dom";
 
 const Slider = () => {
@@ -72,11 +77,14 @@ const Slider = () => {
 
   const handleClickBanner = (item) => {
     if (item?.type === 1) {
+      dispatch(setPlaylist(null));
       dispatch(setCurrentSongId(item.encodeId));
       dispatch(play(true));
     } else if (item?.type === 4) {
       const albumPath = item?.link?.split(".")[0];
       navigate(albumPath);
+    } else {
+      dispatch(setPlaylist(null));
     }
   };
 

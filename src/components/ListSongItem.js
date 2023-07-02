@@ -2,7 +2,7 @@ import React, {memo} from "react";
 import icons from "../utils/icon";
 import moment from "moment";
 import {useDispatch} from "react-redux";
-import {play, setCurrentSongId} from "../store/action/music";
+import {play, playAlbum, setCurrentSongId} from "../store/action/music";
 
 const {BsMusicNoteBeamed} = icons;
 
@@ -12,6 +12,7 @@ const ListSongItem = ({songData}) => {
   const handleClick = () => {
     dispatch(setCurrentSongId(songData.encodeId));
     dispatch(play(true));
+    dispatch(playAlbum(true));
   };
 
   return (

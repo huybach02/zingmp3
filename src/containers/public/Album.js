@@ -4,16 +4,20 @@ import {getDetailPlaylist} from "../../api/music";
 import moment from "moment";
 import ListSong from "../../components/ListSong";
 import {Scrollbars} from "react-custom-scrollbars-2";
+import {useDispatch} from "react-redux";
+import {setPlaylist} from "../../store/action/music";
 
 const Album = () => {
   const {title, id} = useParams();
   const [playlistData, setPlaylistData] = useState({});
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchDetailPlaylist = async () => {
       const res = await getDetailPlaylist(id);
       if (res?.data.err === 0) {
         setPlaylistData(res.data?.data);
+        dispatch(setPlaylist(res?.data?.data?.song?.items));
       }
     };
 
@@ -50,7 +54,6 @@ const Album = () => {
             </span>
           </span>
           <ListSong
-            song={playlistData?.song?.items}
             totalDuration={playlistData?.song?.totalDuration}
             total={playlistData?.song?.total}
           />
