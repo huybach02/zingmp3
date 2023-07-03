@@ -8,6 +8,7 @@ import MyMusic from "./containers/public/MyMusic";
 import Album from "./containers/public/Album";
 import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import WeekChart from "./components/WeekChart";
 
 function App() {
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ function App() {
           <Route path={path.MY_MUSIC} element={<MyMusic />} />
           <Route path={path.ALBUM_TITLE_ID} element={<Album />} />
           <Route path={path.PLAYLIST_TITLE_ID} element={<Album />} />
+          <Route path={path.WEEKCHART_TITLE_ID} element={<WeekChart />} />
 
           <Route path={path.STAR} element={<Home />} />
         </Route>

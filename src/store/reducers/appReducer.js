@@ -9,6 +9,8 @@ const initState = {
   energy: {},
   remix: {},
   isLoading: false,
+  newRelease: {},
+  weekChart: [],
 };
 
 const appReducer = (state = initState, action) => {
@@ -35,6 +37,12 @@ const appReducer = (state = initState, action) => {
         remix:
           action.homeData?.find((item) => item.sectionId === "hEditorTheme3") ||
           {},
+        newRelease:
+          action.homeData?.find((item) => item.sectionType === "new-release") ||
+          {},
+        weekChart:
+          action.homeData?.find((item) => item.sectionType === "weekChart")
+            ?.items || [],
       };
     case actionTypes.LOADING:
       return {

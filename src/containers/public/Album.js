@@ -1,11 +1,16 @@
 import React, {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useParams, useLocation} from "react-router-dom";
 import {getDetailPlaylist} from "../../api/music";
 import moment from "moment";
 import ListSong from "../../components/ListSong";
 import {Scrollbars} from "react-custom-scrollbars-2";
 import {useDispatch, useSelector} from "react-redux";
-import {setLoading, setPlaylist} from "../../store/action/music";
+import {
+  play,
+  setCurrentSongId,
+  setLoading,
+  setPlaylist,
+} from "../../store/action/music";
 import icons from "../../utils/icon";
 import AudioLoading from "../../components/AudioLoading";
 import LoadingData from "../../components/LoadingData";
@@ -18,6 +23,7 @@ const Album = () => {
   const {id} = useParams();
   const [playlistData, setPlaylistData] = useState({});
   const dispatch = useDispatch();
+  const location = useLocation();
 
   useEffect(() => {
     const fetchDetailPlaylist = async () => {
@@ -32,6 +38,19 @@ const Album = () => {
 
     fetchDetailPlaylist();
   }, [id]);
+
+  useEffect(() => {
+    console.log(location.state?.playAlbum);
+    if (location.state?.playAlbum) {
+      const randomSong = Math.round(
+        Math.random() * (playlistData?.song?.items?.length - 1)
+      );
+      dispatch(
+        setCurrentSongId(playlistData?.song?.items[randomSong]?.encodeId)
+      );
+      dispatch(play(true));
+    }
+  }, [id, playlistData]);
 
   return (
     <div className="flex relative gap-8 w-full h-[80%] px-[59px] pt-[20px]">
