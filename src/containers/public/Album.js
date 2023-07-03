@@ -4,17 +4,26 @@ import {getDetailPlaylist} from "../../api/music";
 import moment from "moment";
 import ListSong from "../../components/ListSong";
 import {Scrollbars} from "react-custom-scrollbars-2";
-import {useDispatch} from "react-redux";
-import {setPlaylist} from "../../store/action/music";
+import {useDispatch, useSelector} from "react-redux";
+import {setLoading, setPlaylist} from "../../store/action/music";
+import icons from "../../utils/icon";
+import AudioLoading from "../../components/AudioLoading";
+import LoadingData from "../../components/LoadingData";
+
+const {BsPlayCircle} = icons;
 
 const Album = () => {
-  const {title, id} = useParams();
+  const {isPlaying} = useSelector((state) => state.music);
+  const {isLoading} = useSelector((state) => state.app);
+  const {id} = useParams();
   const [playlistData, setPlaylistData] = useState({});
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchDetailPlaylist = async () => {
+      dispatch(setLoading(true));
       const res = await getDetailPlaylist(id);
+      dispatch(setLoading(false));
       if (res?.data.err === 0) {
         setPlaylistData(res.data?.data);
         dispatch(setPlaylist(res?.data?.data?.song?.items));
@@ -25,13 +34,39 @@ const Album = () => {
   }, [id]);
 
   return (
-    <div className="flex gap-8 w-full h-[80%] px-[59px] pt-[20px]">
-      <div className="flex-none w-[25%] text-textWhite flex flex-col items-center shadow-md">
-        <img
-          src={playlistData?.thumbnailM}
-          alt=""
-          className="w-[300px] object-contain rounded-md"
-        />
+    <div className="flex relative gap-8 w-full h-[80%] px-[59px] pt-[20px]">
+      {isLoading && (
+        <div className="absolute top-0 bottom-0 left-0 right-0 bg-primary z-10 flex items-center justify-center">
+          <LoadingData />
+        </div>
+      )}
+      <div className="flex-none w-[25%] text-textWhite flex flex-col items-center ">
+        <div className="w-[300px] relative cursor-pointer overflow-hidden">
+          <img
+            src={playlistData?.thumbnailM}
+            alt=""
+            className={`w-full object-contain shadow-md  ${
+              isPlaying
+                ? "rounded-full animate-rotate-center"
+                : "rounded-md animate-rotate-center-pause"
+            }`}
+          />
+          <div
+            className={`absolute top-0 left-0 right-0 bottom-0 hover:bg-overlay-40% flex items-center justify-center ${
+              isPlaying && "rounded-full"
+            }`}
+          >
+            <span>
+              {isPlaying ? (
+                <div className="p-3 border-2 border-white rounded-full">
+                  <AudioLoading />
+                </div>
+              ) : (
+                <BsPlayCircle size={50} />
+              )}
+            </span>
+          </div>
+        </div>
         <h3 className="text-[20px] font-bold mt-3">{playlistData?.title}</h3>
         <span className="text-textGrey text-[12px] flex flex-col items-center gap-1 mt-1">
           <span>

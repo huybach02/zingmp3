@@ -5,6 +5,7 @@ import icons from "../utils/icon";
 import {play, setCurrentSongId} from "../store/action/music";
 import moment from "moment";
 import {toast} from "react-toastify";
+import LoadingSong from "./LoadingSong";
 
 const {
   AiFillHeart,
@@ -16,17 +17,24 @@ const {
   BsPlayCircle,
   PiRepeatFill,
   BsPauseCircle,
+  PiRepeatOnceFill,
+  BsMusicNoteList,
+  BiSolidVolumeFull,
+  BiSolidVolumeLow,
+  BiSolidVolumeMute,
 } = icons;
 
 var intervalId;
 
-const Player = () => {
+const Player = ({setIsShowRightSidebar}) => {
   const {currentSongId, isPlaying, songs} = useSelector((state) => state.music);
   const [songInfo, setSongInfo] = useState(null);
   const [audio, setAudio] = useState(new Audio());
   const [current, setCurrent] = useState(0);
   const [isShuffle, setIsShuffle] = useState(false);
-  const [isRepeat, setIsRepeat] = useState(false);
+  const [repeatMode, setRepeatMode] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(true);
+  const [volumeValue, setVolumeValue] = useState(100);
   const thumbRef = useRef();
   const trackRef = useRef();
 
@@ -34,10 +42,12 @@ const Player = () => {
 
   useEffect(() => {
     const fetchDetailSong = async () => {
+      setIsLoaded(false);
       const [res1, res2] = await Promise.all([
         getDetailSong(currentSongId),
         getSong(currentSongId),
       ]);
+      setIsLoaded(true);
       if (res1.data.err === 0) {
         setSongInfo(res1?.data?.data);
       }
@@ -89,11 +99,10 @@ const Player = () => {
 
   useEffect(() => {
     const handleEnded = () => {
-      console.log(isShuffle);
       if (isShuffle) {
         handleShuffle();
-      } else if (isRepeat) {
-        handleNextSong();
+      } else if (repeatMode) {
+        repeatMode === 1 ? handleRepeatOne() : handleNextSong();
       } else {
         audio.pause();
         dispatch(play(false));
@@ -104,7 +113,11 @@ const Player = () => {
     return () => {
       audio.removeEventListener("ended", handleEnded);
     };
-  }, [audio, isShuffle, isRepeat]);
+  }, [audio, isShuffle, repeatMode]);
+
+  useEffect(() => {
+    audio.volume = volumeValue / 100;
+  }, [volumeValue]);
 
   const handleTogglePlayMusic = () => {
     if (isPlaying) {
@@ -124,6 +137,10 @@ const Player = () => {
     thumbRef.current.style.cssText = `right: ${100 - percent}%`;
     audio.currentTime = (percent * songInfo?.duration) / 100;
     setCurrent(Math.round((percent * songInfo?.duration) / 100));
+  };
+
+  const handleRepeatOne = () => {
+    audio.play();
   };
 
   const handleNextSong = () => {
@@ -152,7 +169,6 @@ const Player = () => {
     const indexRandom = Math.round(Math.random() * (songs?.length - 1));
     dispatch(setCurrentSongId(songs[indexRandom]?.encodeId));
     dispatch(play(true));
-    setIsShuffle((prev) => !prev);
   };
 
   return (
@@ -185,7 +201,7 @@ const Player = () => {
         <div className="flex gap-8 justify-center items-center cursor-pointer">
           <span
             title="Bật phát ngẫu nhiên"
-            className={`p-2 rounded-full hover:bg-[#282230] ${
+            className={`p-2 rounded-full hover:bg-hover ${
               !isShuffle ? "text-textGrey font-bold" : ""
             }`}
             onClick={() => setIsShuffle((prev) => !prev)}
@@ -196,14 +212,16 @@ const Player = () => {
             className={`${
               !songs
                 ? "text-textGrey cursor-default"
-                : "p-2 rounded-full hover:bg-[#282230]"
+                : "p-2 rounded-full hover:bg-hover"
             }`}
             onClick={handlePrevSong}
           >
             <AiFillStepBackward size={22} />
           </span>
           <span className="hover:text-select" onClick={handleTogglePlayMusic}>
-            {isPlaying ? (
+            {!isLoaded ? (
+              <LoadingSong />
+            ) : isPlaying ? (
               <BsPauseCircle size={38} />
             ) : (
               <BsPlayCircle size={38} />
@@ -213,7 +231,7 @@ const Player = () => {
             className={`${
               !songs
                 ? "text-textGrey cursor-default"
-                : "p-2 rounded-full hover:bg-[#282230]"
+                : "p-2 rounded-full hover:bg-hover"
             }`}
             onClick={handleNextSong}
           >
@@ -221,12 +239,16 @@ const Player = () => {
           </span>
           <span
             title="Bật phát lại tất cả"
-            className={`p-2 rounded-full hover:bg-[#282230] ${
-              !isRepeat ? "text-textGrey font-bold" : ""
+            className={`p-2 rounded-full hover:bg-hover ${
+              !repeatMode ? "text-textGrey font-bold" : ""
             }`}
-            onClick={() => setIsRepeat((prev) => !prev)}
+            onClick={() => setRepeatMode((prev) => (prev === 2 ? 0 : prev + 1))}
           >
-            <PiRepeatFill size={22} />
+            {repeatMode === 1 ? (
+              <PiRepeatOnceFill size={22} />
+            ) : (
+              <PiRepeatFill size={22} />
+            )}
           </span>
         </div>
 
@@ -250,7 +272,38 @@ const Player = () => {
         </div>
       </div>
 
-      <div className="w-[30%] flex-auto">Volume</div>
+      <div className="w-[30%] flex-auto flex items-center justify-end gap-4">
+        <div className="flex items-center">
+          <span
+            onClick={() => setVolumeValue((prev) => (prev <= 0 ? 100 : 0))}
+            className="p-3 cursor-pointer rounded-full hover:bg-hover"
+          >
+            {volumeValue <= 0 ? (
+              <BiSolidVolumeMute size={20} />
+            ) : volumeValue >= 80 ? (
+              <BiSolidVolumeFull size={20} />
+            ) : (
+              <BiSolidVolumeLow size={20} />
+            )}
+          </span>
+          <input
+            type="range"
+            step={1}
+            min={0}
+            max={100}
+            value={volumeValue}
+            defaultValue={100}
+            onChange={(e) => setVolumeValue(e.target.value)}
+          />
+        </div>
+
+        <span
+          className="p-3 cursor-pointer rounded-full hover:bg-hover"
+          onClick={() => setIsShowRightSidebar((prev) => !prev)}
+        >
+          <BsMusicNoteList size={20} />
+        </span>
+      </div>
     </div>
   );
 };

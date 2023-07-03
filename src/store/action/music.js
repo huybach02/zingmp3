@@ -21,6 +21,11 @@ export const setPlaylist = (songs) => ({
   songs,
 });
 
+export const setLoading = (flag) => ({
+  type: actionTypes.LOADING,
+  flag,
+});
+
 // export const fetchDetailPlaylist = (playlistId) => async (action) => {
 //   try {
 //     const res = await getDetailPlaylist(playlistId);

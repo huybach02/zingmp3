@@ -9,6 +9,7 @@ import {
   BsPlayCircle,
   BsPauseCircle,
   BsMusicNoteBeamed,
+  BsMusicNoteList,
 } from "react-icons/bs";
 import {
   AiOutlineHeart,
@@ -16,8 +17,13 @@ import {
   AiFillStepForward,
   AiFillStepBackward,
 } from "react-icons/ai";
-import {PiShuffle, PiRepeatFill} from "react-icons/pi";
+import {PiShuffle, PiRepeatFill, PiRepeatOnceFill} from "react-icons/pi";
 import {RiArrowUpDownFill} from "react-icons/ri";
+import {
+  BiSolidVolumeFull,
+  BiSolidVolumeLow,
+  BiSolidVolumeMute,
+} from "react-icons/bi";
 
 const icons = {
   MdOutlineLibraryMusic,
@@ -38,6 +44,11 @@ const icons = {
   BsPauseCircle,
   BsMusicNoteBeamed,
   RiArrowUpDownFill,
+  PiRepeatOnceFill,
+  BsMusicNoteList,
+  BiSolidVolumeFull,
+  BiSolidVolumeLow,
+  BiSolidVolumeMute,
 };
 
 export default icons;

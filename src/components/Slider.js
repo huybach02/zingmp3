@@ -89,13 +89,13 @@ const Slider = () => {
   };
 
   return (
-    <div className="flex gap-7 w-full overflow-hidden px-[59px] pt-8 ">
+    <div className="flex gap-7 w-full overflow-hidden px-[59px] pt-8">
       {banner?.map((item, index) => (
         <img
           key={item.encodeId}
           src={item.banner}
           alt=""
-          className={`slider-item flex-1 object-contain w-[30%] rounded-lg ${
+          className={`slider-item cursor-pointer flex-1 object-contain w-[30%] rounded-lg ${
             index <= 2 ? "block" : "hidden"
           }`}
           onClick={() => handleClickBanner(item)}
