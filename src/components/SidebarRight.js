@@ -83,15 +83,17 @@ const SidebarRight = () => {
         <Scrollbars style={{width: "100%", height: "650px"}}>
           {playlist && (
             <div className="flex flex-col">
-              {playlist?.map((item) => (
-                <SongItem
-                  key={item.encodeId}
-                  thumbnail={item?.thumbnail}
-                  title={item?.title}
-                  artists={item?.artistsNames}
-                  songId={item?.encodeId}
-                />
-              ))}
+              {playlist
+                ?.filter((item) => item.encodeId !== currentSongData?.encodeId)
+                ?.map((item) => (
+                  <SongItem
+                    key={item.encodeId}
+                    thumbnail={item?.thumbnail}
+                    title={item?.title}
+                    artists={item?.artistsNames}
+                    songId={item?.encodeId}
+                  />
+                ))}
             </div>
           )}
         </Scrollbars>
