@@ -15,6 +15,7 @@ module.exports = {
         premium: "#e5ac1a",
         progress: "#595460",
         hover: "#282230",
+        bgIcon: "#2f2739",
       },
       backgroundColor: {
         "overlay-40%": "rgba(0,0,0,0.4)",

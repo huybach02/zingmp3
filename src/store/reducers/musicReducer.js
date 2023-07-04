@@ -5,6 +5,8 @@ const initState = {
   isPlaying: false,
   atAlbum: false,
   songs: null,
+  currentSongData: null,
+  currentAlbumId: null,
 };
 
 const musicReducer = (state = initState, action) => {
@@ -28,6 +30,16 @@ const musicReducer = (state = initState, action) => {
       return {
         ...state,
         songs: action.songs || null,
+      };
+    case actionTypes.SET_CURRENT_SONG_DATA:
+      return {
+        ...state,
+        currentSongData: action.data || null,
+      };
+    case actionTypes.SET_CURRENT_ALBUM_ID:
+      return {
+        ...state,
+        currentAlbumId: action.id || null,
       };
 
     default:

@@ -26,7 +26,7 @@ const Public = () => {
         </div>
 
         {isShowRightSidebar && (
-          <div className="sm:hidden 2xl:block w-[330px] flex-none bg-rightBar ">
+          <div className="sm:hidden 2xl:block w-[330px] h-screen flex-none bg-rightBar ">
             <SidebarRight />
           </div>
         )}

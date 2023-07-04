@@ -5,6 +5,8 @@ import {useSelector} from "react-redux";
 import SongItem from "./SongItem";
 import icons from "../utils/icon";
 import _ from "lodash";
+import {Link} from "react-router-dom";
+import path from "../utils/path";
 
 const {BsPlayFill} = icons;
 
@@ -108,13 +110,15 @@ const ZingChart = () => {
         <div className="px-[59px] mt-12 text-white ">
           <div className="w-full px-5 py-6 rounded-lg bg-gradient-to-r from-[#3e175a] to-[#59247c]">
             <div className="flex gap-5 items-center mb-5">
-              <h3 className="text-[28px] font-bold ">#zingchart</h3>
+              <Link to={path.ZINGCHART}>
+                <h3 className="text-[28px] font-bold ">#zingchart</h3>
+              </Link>
               <span className="p-1 rounded-full bg-white ">
                 <BsPlayFill size={20} color="#000" />
               </span>
             </div>
             <div className="flex sm:flex-col-reverse lg:flex-row gap-4">
-              <div className="sm:w-full lg:w-[35%]">
+              <div className="sm:w-full lg:w-[35%] flex flex-col items-center gap-2">
                 <div className="w-full flex flex-col gap-4 py-[10px] ">
                   {rank?.slice(0, 3)?.map((item, index) => (
                     <SongItem
@@ -130,6 +134,12 @@ const ZingChart = () => {
                     />
                   ))}
                 </div>
+                <Link
+                  to={path.ZINGCHART}
+                  className="px-8 py-1 rounded-r-full rounded-l-full border border-white text-[14px] m-auto hover:bg-[#563170]"
+                >
+                  Xem thêm
+                </Link>
               </div>
               <div className="sm:w-full lg:w-[65%] cursor-default">
                 <div className="w-full min-h-[300px] relative">

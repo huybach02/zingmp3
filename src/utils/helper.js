@@ -22,4 +22,4 @@ export const getArraySlider = (start, end, length) => {
 // 0 1 2 3 4 5
 
 //0 1 2
-//1 2
+//1 2 0

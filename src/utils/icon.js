@@ -25,6 +25,7 @@ import {
   BiSolidVolumeLow,
   BiSolidVolumeMute,
 } from "react-icons/bi";
+import {ImBin} from "react-icons/im";
 
 const icons = {
   MdOutlineLibraryMusic,
@@ -51,6 +52,7 @@ const icons = {
   BiSolidVolumeLow,
   BiSolidVolumeMute,
   BsPlayFill,
+  ImBin,
 };
 
 export default icons;

@@ -2,7 +2,11 @@ import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getDetailSong, getSong} from "../api/music";
 import icons from "../utils/icon";
-import {play, setCurrentSongId} from "../store/action/music";
+import {
+  play,
+  setCurrentSongData,
+  setCurrentSongId,
+} from "../store/action/music";
 import moment from "moment";
 import {toast} from "react-toastify";
 import LoadingSong from "./LoadingSong";
@@ -50,6 +54,7 @@ const Player = ({setIsShowRightSidebar}) => {
       setIsLoaded(true);
       if (res1.data.err === 0) {
         setSongInfo(res1?.data?.data);
+        dispatch(setCurrentSongData(res1?.data?.data));
       }
       if (res2.data.err === 0) {
         if (songInfo?.streamingStatus === 1) {

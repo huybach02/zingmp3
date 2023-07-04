@@ -26,6 +26,16 @@ export const setLoading = (flag) => ({
   flag,
 });
 
+export const setCurrentSongData = (data) => ({
+  type: actionTypes.SET_CURRENT_SONG_DATA,
+  data,
+});
+
+export const setCurrentAlbumId = (id) => ({
+  type: actionTypes.SET_CURRENT_ALBUM_ID,
+  id,
+});
+
 // export const fetchDetailPlaylist = (playlistId) => async (action) => {
 //   try {
 //     const res = await getDetailPlaylist(playlistId);

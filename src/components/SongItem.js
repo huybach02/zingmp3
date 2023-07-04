@@ -26,7 +26,9 @@ const SongItem = ({
         styleChart
           ? styleChart
           : `w-full flex p-[10px] gap-[10px] items-center cursor-pointer  justify-between text-[14px] ${
-              order ? "hover:bg-[#5f4274] bg-[#51296d]" : " "
+              order
+                ? "hover:bg-[#5f4274] bg-[#51296d] border-l-8 border-select rounded-lg "
+                : " "
             }`
       }`}
       onClick={handleClick}
@@ -55,7 +57,9 @@ const SongItem = ({
           }`}
         />
         <div className="flex flex-col gap-1">
-          <span className=" font-semibold">{title}</span>
+          <span className=" font-semibold">{`${
+            title?.length > 24 ? `${title?.slice(0, 24)}...` : title
+          }`}</span>
           <span
             className={`${
               styleChart

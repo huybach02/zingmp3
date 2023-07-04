@@ -7,6 +7,7 @@ import {Scrollbars} from "react-custom-scrollbars-2";
 import {useDispatch, useSelector} from "react-redux";
 import {
   play,
+  setCurrentAlbumId,
   setCurrentSongId,
   setLoading,
   setPlaylist,
@@ -26,6 +27,7 @@ const Album = () => {
   const location = useLocation();
 
   useEffect(() => {
+    dispatch(setCurrentAlbumId(id));
     const fetchDetailPlaylist = async () => {
       dispatch(setLoading(true));
       const res = await getDetailPlaylist(id);
@@ -40,7 +42,6 @@ const Album = () => {
   }, [id]);
 
   useEffect(() => {
-    console.log(location.state?.playAlbum);
     if (location.state?.playAlbum) {
       const randomSong = Math.round(
         Math.random() * (playlistData?.song?.items?.length - 1)

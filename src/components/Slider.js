@@ -19,7 +19,13 @@ const Slider = () => {
     let min = 0;
     let max = 2;
     const intervalId = setInterval(() => {
-      const list = getArraySlider(min, max, sliderEls.length - 1);
+      let list = [];
+      //Fix bug neu chi co dung 3 tam hinh thi se animation se bi loi (do ham getArraySlider hoat dong sai)
+      if (sliderEls.length - 1 <= 2) {
+        list = sliderEls;
+        return;
+      }
+      list = getArraySlider(min, max, sliderEls.length - 1);
       for (let i = 0; i < sliderEls.length; i++) {
         // Delete classnames (css)
         sliderEls[i]?.classList?.remove(
