@@ -23,46 +23,52 @@ const NewRelease = () => {
         <h3 className="text-[20px] font-semibold">{newRelease?.title}</h3>
         {newRelease?.title && <span>tat ca</span>}
       </div>
-      <div className="flex items-center gap-5">
-        <button
-          type="button"
-          className={`py-1 px-6 rounded-l-full rounded-r-full border border-textGrey text-[12px] uppercase hover:text-textGrey ${
-            isActive === "all" && "bg-select"
-          }`}
-          onClick={() => setIsActive("all")}
-        >
-          tất cả
-        </button>
-        <button
-          type="button"
-          className={`py-1 px-6 rounded-l-full rounded-r-full border border-textGrey text-[12px] uppercase hover:text-textGrey ${
-            isActive === "vPop" && "bg-select"
-          }`}
-          onClick={() => setIsActive("vPop")}
-        >
-          việt nam
-        </button>
-        <button
-          type="button"
-          className={`py-1 px-6 rounded-l-full rounded-r-full border border-textGrey text-[12px] uppercase hover:text-textGrey ${
-            isActive === "others" && "bg-select"
-          }`}
-          onClick={() => setIsActive("others")}
-        >
-          quốc tế
-        </button>
-      </div>
+      {newRelease?.title && (
+        <div className="flex items-center gap-5">
+          <button
+            type="button"
+            className={`py-1 px-6 rounded-l-full rounded-r-full border border-textGrey text-[12px] uppercase hover:text-textGrey ${
+              isActive === "all" && "bg-select"
+            }`}
+            onClick={() => setIsActive("all")}
+          >
+            tất cả
+          </button>
+          <button
+            type="button"
+            className={`py-1 px-6 rounded-l-full rounded-r-full border border-textGrey text-[12px] uppercase hover:text-textGrey ${
+              isActive === "vPop" && "bg-select"
+            }`}
+            onClick={() => setIsActive("vPop")}
+          >
+            việt nam
+          </button>
+          <button
+            type="button"
+            className={`py-1 px-6 rounded-l-full rounded-r-full border border-textGrey text-[12px] uppercase hover:text-textGrey ${
+              isActive === "others" && "bg-select"
+            }`}
+            onClick={() => setIsActive("others")}
+          >
+            quốc tế
+          </button>
+        </div>
+      )}
 
       <div className="flex flex-wrap w-full gap-x-5 ">
         {list?.map((item) => (
-          <SongItem
+          <div
             key={item.encodeId}
-            thumbnail={item.thumbnail}
-            title={item.title}
-            artists={item.artistsNames}
-            releaseDate={item.releaseDate}
-            songId={item.encodeId}
-          />
+            className="w-[48%] lg:w-[30%] hover:bg-hover rounded-md"
+          >
+            <SongItem
+              thumbnail={item.thumbnail}
+              title={item.title}
+              artists={item.artistsNames}
+              releaseDate={item.releaseDate}
+              songId={item.encodeId}
+            />
+          </div>
         ))}
       </div>
     </div>

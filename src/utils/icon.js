@@ -10,6 +10,7 @@ import {
   BsPauseCircle,
   BsMusicNoteBeamed,
   BsMusicNoteList,
+  BsPlayFill,
 } from "react-icons/bs";
 import {
   AiOutlineHeart,
@@ -49,6 +50,7 @@ const icons = {
   BiSolidVolumeFull,
   BiSolidVolumeLow,
   BiSolidVolumeMute,
+  BsPlayFill,
 };
 
 export default icons;
