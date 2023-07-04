@@ -9,6 +9,7 @@ import Album from "./containers/public/Album";
 import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import WeekChart from "./components/WeekChart";
+import ZingChartPage from "./containers/public/ZingChartPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ function App() {
           <Route path={path.ALBUM_TITLE_ID} element={<Album />} />
           <Route path={path.PLAYLIST_TITLE_ID} element={<Album />} />
           <Route path={path.WEEKCHART_TITLE_ID} element={<WeekChart />} />
+          <Route path={path.ZINGCHART} element={<ZingChartPage />} />
 
           <Route path={path.STAR} element={<Home />} />
         </Route>

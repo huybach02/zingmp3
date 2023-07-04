@@ -4,7 +4,7 @@ export const getArraySlider = (start, end, length) => {
   for (let i = start; i <= limit; i++) {
     output.push(i);
   }
-  if (start > end) {
+  if (start > end || start <= end) {
     for (let i = 0; i <= end; i++) {
       output.push(i);
     }
@@ -14,9 +14,12 @@ export const getArraySlider = (start, end, length) => {
 
 // lenght 5
 // 0 1 2 3 4 5
-// 1 2 3 3 5 0
+// 1 2 3 4 5 0
 // 2 3 4 5 0 1
 // 3 4 5 0 1 2
 // 4 5 0 1 2 3
 // 5 0 1 2 3 4
 // 0 1 2 3 4 5
+
+//0 1 2
+//1 2

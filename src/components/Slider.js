@@ -39,7 +39,7 @@ const Slider = () => {
         );
 
         // Hide or Show images
-        if (list.some((item) => item === i)) {
+        if (list && list.some((item) => item === i)) {
           sliderEls[i].style.cssText = `display: block`;
         } else {
           sliderEls[i].style.cssText = `display: none`;
