@@ -8,6 +8,11 @@ const path = {
   PLAYLIST_TITLE_ID: "playlist/:title/:id",
   WEEKCHART_TITLE_ID: "zing-chart-tuan/:title/:id",
   ZINGCHART: "zing-chart",
+  SEARCH: "tim-kiem",
+  ALL: "tat-ca",
+  SONG: "bai-hat",
+  PLAYLIST: "playlist",
+  HOME_SINGER: ":singer",
 };
 
 export default path;

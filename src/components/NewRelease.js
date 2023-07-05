@@ -6,7 +6,6 @@ const NewRelease = () => {
   const {newRelease} = useSelector((state) => state.app);
   const [isActive, setIsActive] = useState("all");
   const [list, setList] = useState([]);
-  console.log("list: ", list);
 
   useEffect(() => {
     if (isActive === "all") {

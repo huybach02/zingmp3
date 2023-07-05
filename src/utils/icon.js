@@ -17,6 +17,7 @@ import {
   AiFillHeart,
   AiFillStepForward,
   AiFillStepBackward,
+  AiFillCloseCircle,
 } from "react-icons/ai";
 import {PiShuffle, PiRepeatFill, PiRepeatOnceFill} from "react-icons/pi";
 import {RiArrowUpDownFill} from "react-icons/ri";
@@ -53,6 +54,7 @@ const icons = {
   BiSolidVolumeMute,
   BsPlayFill,
   ImBin,
+  AiFillCloseCircle,
 };
 
 export default icons;

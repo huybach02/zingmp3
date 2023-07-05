@@ -10,6 +10,11 @@ import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import WeekChart from "./components/WeekChart";
 import ZingChartPage from "./containers/public/ZingChartPage";
+import SearchSong from "./containers/public/SearchSong";
+import SearchAll from "./containers/public/SearchAll";
+import SearchPage from "./containers/public/SearchPage";
+import Singer from "./containers/public/Singer";
+import SearchPlaylist from "./containers/public/SearchPlaylist";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,6 +35,12 @@ function App() {
           <Route path={path.PLAYLIST_TITLE_ID} element={<Album />} />
           <Route path={path.WEEKCHART_TITLE_ID} element={<WeekChart />} />
           <Route path={path.ZINGCHART} element={<ZingChartPage />} />
+          <Route path={path.HOME_SINGER} element={<Singer />} />
+          <Route path={path.SEARCH} element={<SearchPage />}>
+            <Route path={path.ALL} element={<SearchAll />} />
+            <Route path={path.SONG} element={<SearchSong />} />
+            <Route path={path.PLAYLIST} element={<SearchPlaylist />} />
+          </Route>
 
           <Route path={path.STAR} element={<Home />} />
         </Route>

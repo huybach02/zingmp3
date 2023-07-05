@@ -1,4 +1,4 @@
-import {getDetailPlaylist} from "../../api/music";
+import {getDetailPlaylist, searchApi} from "../../api/music";
 import actionTypes from "./actionTypes";
 
 export const setCurrentSongId = (songId) => ({
@@ -41,19 +41,25 @@ export const setRecentSong = (data) => ({
   data,
 });
 
-// export const fetchDetailPlaylist = (playlistId) => async (action) => {
-//   try {
-//     const res = await getDetailPlaylist(playlistId);
-//     if (res?.data.err === 0) {
-//       action({
-//         type: actionTypes.PLAYLIST,
-//         songs: res?.data?.data?.song?.items,
-//       });
-//     }
-//   } catch (error) {
-//     action({
-//       type: actionTypes.PLAYLIST,
-//       songs: null,
-//     });
-//   }
-// };
+export const search = (keyword) => async (action) => {
+  try {
+    const res = await searchApi(keyword);
+    if (res?.data?.err === 0) {
+      action({
+        type: actionTypes.SEARCH,
+        data: res?.data?.data,
+        keyword,
+      });
+    } else {
+      action({
+        type: actionTypes.SEARCH,
+        data: null,
+      });
+    }
+  } catch (error) {
+    action({
+      type: actionTypes.SEARCH,
+      data: null,
+    });
+  }
+};

@@ -11,7 +11,7 @@ import {
 
 const {BsMusicNoteBeamed} = icons;
 
-const ListSongItem = ({songData}) => {
+const ListSongItem = ({songData, isHideAlbum}) => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
@@ -31,9 +31,11 @@ const ListSongItem = ({songData}) => {
   return (
     <div className="flex justify-between items-center" onClick={handleClick}>
       <div className="flex items-center gap-2 flex-1">
-        <span>
-          <BsMusicNoteBeamed />
-        </span>
+        {!isHideAlbum && (
+          <span>
+            <BsMusicNoteBeamed />
+          </span>
+        )}
         <img
           src={songData?.thumbnail}
           alt=""
@@ -59,12 +61,14 @@ const ListSongItem = ({songData}) => {
       </div>
 
       <div className="flex items-center justify-center flex-1">
-        <div className="flex items-center text-textGrey">{`${
-          songData?.album?.title.length > 40
-            ? `${songData?.album?.title?.slice(0, 40)}...`
-            : songData?.album?.title
-        }`}</div>
-        <div className="flex items-center justify-end flex-1 text-textGrey">
+        {!isHideAlbum && (
+          <div className="flex items-center text-textGrey">{`${
+            songData?.album?.title.length > 40
+              ? `${songData?.album?.title?.slice(0, 40)}...`
+              : songData?.album?.title
+          }`}</div>
+        )}
+        <div className="flex items-center justify-end flex-1 text-textGrey text-[12px]">
           {moment.utc(songData?.duration * 1000).format("mm:ss")}
         </div>
       </div>

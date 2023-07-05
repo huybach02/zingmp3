@@ -16,6 +16,7 @@ module.exports = {
         progress: "#595460",
         hover: "#282230",
         bgIcon: "#2f2739",
+        searchItem: "#231b2e",
       },
       backgroundColor: {
         "overlay-40%": "rgba(0,0,0,0.4)",
