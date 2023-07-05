@@ -5,7 +5,6 @@ import {useSelector} from "react-redux";
 
 const SearchPage = () => {
   const {keyword} = useSelector((state) => state.music);
-  console.log("keyword: ", keyword);
 
   return (
     <div className="text-white">

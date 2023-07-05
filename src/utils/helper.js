@@ -4,7 +4,7 @@ export const getArraySlider = (start, end, length) => {
   for (let i = start; i <= limit; i++) {
     output.push(i);
   }
-  if (start > end || start <= end) {
+  if (start > end) {
     for (let i = 0; i <= end; i++) {
       output.push(i);
     }
