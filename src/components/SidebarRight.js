@@ -11,7 +11,13 @@ const {ImBin} = icons;
 const SidebarRight = () => {
   const [isRecent, setIsRecent] = useState(false);
   const [playlist, setPlaylist] = useState();
-  const {currentSongData, currentAlbumId} = useSelector((state) => state.music);
+  const {
+    currentSongData,
+    currentAlbumId,
+    recentSongs,
+    isPlaying,
+    currentSongId,
+  } = useSelector((state) => state.music);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,6 +30,10 @@ const SidebarRight = () => {
 
     if (currentAlbumId) fetchDetailPlayList();
   }, [currentAlbumId]);
+
+  useEffect(() => {
+    isPlaying && setIsRecent(false);
+  }, [isPlaying, currentSongId]);
 
   return (
     <div className="flex flex-col text-white text-[12px]">
@@ -54,50 +64,79 @@ const SidebarRight = () => {
           <ImBin size={14} />
         </span>
       </div>
-      <div className="w-full flex flex-col flex-auto">
-        <SongItem
-          thumbnail={currentSongData?.thumbnail}
-          title={`${
-            currentSongData?.title?.length > 40
-              ? `${currentSongData?.title?.slice(0, 20)}...`
-              : currentSongData?.title
-          }`}
-          artists={currentSongData?.artistsNames}
-          songId={currentSongData?.encodeId}
-          order
-        />
-        <div className="flex flex-col text-[14px] p-4">
-          <span className="font-bold">Tiếp theo</span>
-          <span className="text-textGrey">
-            Từ playList{" "}
-            <span
-              className="text-select font-semibold cursor-pointer"
-              onClick={() =>
-                navigate(currentSongData?.album?.link?.split(".")[0])
-              }
-            >
-              {currentSongData?.album?.title}
+
+      {!isRecent && (
+        <div className="w-full flex flex-col flex-none">
+          <SongItem
+            thumbnail={currentSongData?.thumbnail}
+            title={`${
+              currentSongData?.title?.length > 40
+                ? `${currentSongData?.title?.slice(0, 20)}...`
+                : currentSongData?.title
+            }`}
+            artists={currentSongData?.artistsNames}
+            songId={currentSongData?.encodeId}
+            order
+          />
+          <div className="flex flex-col text-[14px] p-4">
+            <span className="font-bold">Tiếp theo</span>
+            <span className="text-textGrey">
+              Từ playList{" "}
+              <span
+                className="text-select font-semibold cursor-pointer"
+                onClick={() =>
+                  navigate(currentSongData?.album?.link?.split(".")[0])
+                }
+              >
+                {currentSongData?.album?.title}
+              </span>
             </span>
-          </span>
+          </div>
+          <div className=" h-custom">
+            <Scrollbars style={{width: "100%", height: "100%"}}>
+              {playlist && (
+                <div className="flex flex-col">
+                  {playlist
+                    ?.filter(
+                      (item) => item.encodeId !== currentSongData?.encodeId
+                    )
+                    ?.map((item) => (
+                      <SongItem
+                        key={item.encodeId}
+                        thumbnail={item?.thumbnail}
+                        title={item?.title}
+                        artists={item?.artistsNames}
+                        songId={item?.encodeId}
+                      />
+                    ))}
+                </div>
+              )}
+            </Scrollbars>
+          </div>
         </div>
-        <Scrollbars style={{width: "100%", height: "650px"}}>
-          {playlist && (
-            <div className="flex flex-col">
-              {playlist
-                ?.filter((item) => item.encodeId !== currentSongData?.encodeId)
-                ?.map((item) => (
-                  <SongItem
-                    key={item.encodeId}
-                    thumbnail={item?.thumbnail}
-                    title={item?.title}
-                    artists={item?.artistsNames}
-                    songId={item?.encodeId}
-                  />
-                ))}
-            </div>
-          )}
-        </Scrollbars>
-      </div>
+      )}
+
+      {isRecent && (
+        <div>
+          <div className=" h-custom2">
+            <Scrollbars style={{width: "100%", height: "100%"}}>
+              {recentSongs && (
+                <div className="flex flex-col">
+                  {recentSongs?.map((item) => (
+                    <SongItem
+                      key={item.songId}
+                      thumbnail={item?.thumbnail}
+                      title={item?.title}
+                      artists={item?.artists}
+                      songId={item?.songId}
+                    />
+                  ))}
+                </div>
+              )}
+            </Scrollbars>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -2,7 +2,7 @@ import moment from "moment";
 import React, {memo} from "react";
 import "moment/locale/vi";
 import {useDispatch} from "react-redux";
-import {play, setCurrentSongId} from "../store/action/music";
+import {play, setCurrentSongId, setRecentSong} from "../store/action/music";
 
 const SongItem = ({
   thumbnail,
@@ -13,11 +13,20 @@ const SongItem = ({
   order,
   percent,
   styleChart,
+  streamingStatus,
 }) => {
   const dispatch = useDispatch();
   const handleClick = () => {
     dispatch(setCurrentSongId(songId));
     dispatch(play(true));
+    dispatch(
+      setRecentSong({
+        thumbnail,
+        title,
+        artists,
+        songId,
+      })
+    );
   };
 
   return (
@@ -57,9 +66,18 @@ const SongItem = ({
           }`}
         />
         <div className="flex flex-col gap-1">
-          <span className=" font-semibold">{`${
-            title?.length > 24 ? `${title?.slice(0, 24)}...` : title
-          }`}</span>
+          <span className=" font-semibold flex items-center gap-3">
+            <span>{`${
+              title?.length > 24 ? `${title?.slice(0, 24)}...` : title
+            }`}</span>
+            <span>
+              {streamingStatus === 2 && (
+                <span className="bg-premium px-2 py-0 rounded-md text-[10px] font-bold">
+                  PREMIUM
+                </span>
+              )}
+            </span>
+          </span>
           <span
             className={`${
               styleChart

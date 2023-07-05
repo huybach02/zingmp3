@@ -36,6 +36,11 @@ export const setCurrentAlbumId = (id) => ({
   id,
 });
 
+export const setRecentSong = (data) => ({
+  type: actionTypes.SET_RECENT_SONG,
+  data,
+});
+
 // export const fetchDetailPlaylist = (playlistId) => async (action) => {
 //   try {
 //     const res = await getDetailPlaylist(playlistId);

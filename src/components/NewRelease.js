@@ -6,6 +6,7 @@ const NewRelease = () => {
   const {newRelease} = useSelector((state) => state.app);
   const [isActive, setIsActive] = useState("all");
   const [list, setList] = useState([]);
+  console.log("list: ", list);
 
   useEffect(() => {
     if (isActive === "all") {
@@ -67,6 +68,7 @@ const NewRelease = () => {
               artists={item.artistsNames}
               releaseDate={item.releaseDate}
               songId={item.encodeId}
+              streamingStatus={item.streamingStatus}
             />
           </div>
         ))}

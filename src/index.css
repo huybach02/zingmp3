@@ -19,3 +19,11 @@ body{
 .bg-chart{
   background-color: rgba(71, 22, 105, 0.726);
 }
+
+.h-custom{
+  height: calc(100vh - 300px);
+}
+
+.h-custom2{
+  height: calc(100vh - 150px);
+}
