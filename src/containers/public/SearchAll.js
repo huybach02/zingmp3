@@ -111,7 +111,7 @@ const SearchAll = () => {
         </div>
       )}
       {!searchData?.top?.thumbnail && (
-        <div className="absolute top-0 bottom-0 left-0 right-0 bg-primary z-10 flex items-center justify-center">
+        <div className="absolute top-0 bottom-[90px] left-0 right-0 bg-primary z-10 flex items-center justify-center">
           <LoadingData />
         </div>
       )}

@@ -14,6 +14,7 @@ const SongItem = ({
   percent,
   styleChart,
   streamingStatus,
+  titleFull,
 }) => {
   const dispatch = useDispatch();
   const handleClick = () => {
@@ -34,10 +35,10 @@ const SongItem = ({
       className={`${
         styleChart
           ? styleChart
-          : `w-full flex p-[10px] gap-[10px] items-center cursor-pointer  justify-between text-[14px] ${
-              order
-                ? "hover:bg-[#5f4274] bg-[#51296d] border-l-8 border-select rounded-lg "
-                : " "
+          : `w-full flex p-[10px] gap-[10px] items-center cursor-pointer  justify-between text-[14px] rounded-lg ${
+              order <= 3
+                ? "hover:bg-[#5f4274] bg-[#51296d] border-l-8 border-select  "
+                : ""
             }`
       }`}
       onClick={handleClick}
@@ -50,7 +51,9 @@ const SongItem = ({
                 ? "text-[#4a90e2]"
                 : order === 2
                 ? "text-[#50e3c2]"
-                : "text-[#e35050]"
+                : order === 3
+                ? "text-[#e35050]"
+                : "text-white"
             }`}
           >
             {order}
@@ -68,7 +71,9 @@ const SongItem = ({
         <div className="flex flex-col gap-1">
           <span className=" font-semibold flex items-center gap-3">
             <span>{`${
-              title?.length > 24 ? `${title?.slice(0, 24)}...` : title
+              !titleFull && title?.length > 24
+                ? `${title?.slice(0, 24)}...`
+                : title
             }`}</span>
             <span>
               {streamingStatus === 2 && (

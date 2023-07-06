@@ -10,7 +10,6 @@ import LoadingData from "../../components/LoadingData";
 const Singer = () => {
   const {singer} = useParams();
   const [artistData, setArtistData] = useState();
-  console.log("artistData: ", artistData);
 
   useEffect(() => {
     const fetchArtistData = async () => {
@@ -84,8 +83,8 @@ const Singer = () => {
                 ?.find((item) => item.sectionId === "aPlaylist")
                 ?.items?.slice(0, 5)
                 .map((item) => (
-                  <div className="flex-1">
-                    <SectionItem key={item.encodeId} item={item} />
+                  <div key={item.encodeId} className="flex-1">
+                    <SectionItem item={item} />
                   </div>
                 ))}
             </div>
@@ -147,7 +146,7 @@ const Singer = () => {
         </div>
       )}
       {!artistData?.cover && (
-        <div className="absolute top-0 bottom-0 left-0 right-0 bg-primary z-10 flex items-center justify-center">
+        <div className="absolute top-0 bottom-[90px] left-0 right-0 bg-primary z-10 flex items-center justify-center">
           <LoadingData />
         </div>
       )}

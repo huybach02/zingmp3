@@ -56,7 +56,7 @@ const Album = () => {
   return (
     <div className="flex relative gap-8 w-full h-[80%] px-[59px] pt-[20px]">
       {isLoading && (
-        <div className="absolute top-0 bottom-0 left-0 right-0 bg-primary z-10 flex items-center justify-center">
+        <div className="absolute top-0 bottom-[90px] left-0 right-0 bg-primary z-10 flex items-center justify-center">
           <LoadingData />
         </div>
       )}

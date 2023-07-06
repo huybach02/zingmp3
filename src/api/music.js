@@ -95,3 +95,17 @@ export const getArtistApi = (alias) =>
       reject(error);
     }
   });
+
+export const getChartHome = (alias) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const res = await axios({
+        url: "/charthome",
+        method: "GET",
+      });
+
+      resolve(res);
+    } catch (error) {
+      reject(error);
+    }
+  });
