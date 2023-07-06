@@ -63,3 +63,25 @@ export const search = (keyword) => async (action) => {
     });
   }
 };
+
+export const getSearchSong = (playlistId) => async (action) => {
+  try {
+    const res = await getDetailPlaylist(playlistId);
+    if (res?.data?.err === 0) {
+      action({
+        type: actionTypes.PLAYLIST,
+        songs: res?.data?.data?.song?.items,
+      });
+    } else {
+      action({
+        type: actionTypes.PLAYLIST,
+        songs: null,
+      });
+    }
+  } catch (error) {
+    action({
+      type: actionTypes.PLAYLIST,
+      songs: null,
+    });
+  }
+};

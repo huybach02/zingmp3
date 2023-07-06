@@ -59,3 +59,39 @@ export const searchApi = (keyword) =>
       reject(error);
     }
   });
+
+export const getArtistSongApi = (singerId) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const res = await axios({
+        url: "/artistsong",
+        method: "GET",
+        params: {
+          id: singerId,
+          page: 1,
+          count: 50,
+        },
+      });
+
+      resolve(res);
+    } catch (error) {
+      reject(error);
+    }
+  });
+
+export const getArtistApi = (alias) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const res = await axios({
+        url: "/artist",
+        method: "GET",
+        params: {
+          name: alias,
+        },
+      });
+
+      resolve(res);
+    } catch (error) {
+      reject(error);
+    }
+  });

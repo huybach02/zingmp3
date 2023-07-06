@@ -5,9 +5,11 @@ import SongItem from "../../components/SongItem";
 import ListSongItem from "../../components/ListSongItem";
 import SectionItem from "../../components/SectionItem";
 import Artist from "../../components/Artist";
+import {Link} from "react-router-dom";
 
 const SearchAll = () => {
   const {searchData} = useSelector((state) => state.music);
+  console.log("searchData: ", searchData);
 
   return (
     <div className="w-full flex flex-col px-[59px]">
@@ -15,7 +17,10 @@ const SearchAll = () => {
         <h3 className="text-[20px] font-bold">Nổi Bật</h3>
         <div className="flex gap-8">
           {searchData?.top && (
-            <div className="flex items-center flex-1 gap-8 p-[10px] bg-searchItem hover:bg-bgIcon rounded-lg cursor-pointer">
+            <Link
+              to={searchData?.top?.link}
+              className="flex items-center flex-1 gap-8 p-[10px] bg-searchItem hover:bg-bgIcon rounded-lg cursor-pointer"
+            >
               <img
                 src={searchData?.top?.thumbnail}
                 alt=""
@@ -41,7 +46,7 @@ const SearchAll = () => {
                       searchData?.top?.artistsNames)}
                 </span>
               </div>
-            </div>
+            </Link>
           )}
           {searchData?.songs
             ?.filter((item, index) =>
@@ -88,13 +93,15 @@ const SearchAll = () => {
         <h3 className="text-[20px] font-bold my-6">Nghệ Sĩ/OA</h3>
         <div className="flex justify-between gap-3 flex-wrap ">
           {searchData?.artists?.slice(0, 5).map((item) => (
-            <Artist
-              key={item.id}
-              image={item.thumbnail}
-              title={item.name}
-              follow={item.totalFollow}
-              link={item.link}
-            ></Artist>
+            <div className="py-5">
+              <Artist
+                key={item.id}
+                image={item.thumbnail}
+                title={item.name}
+                follow={item.totalFollow}
+                link={item.link}
+              ></Artist>
+            </div>
           ))}
         </div>
       </div>

@@ -79,7 +79,6 @@ const SidebarRight = () => {
             order
           />
           <div className="flex flex-col text-[14px] p-4">
-            <span className="font-bold">Tiếp theo</span>
             <span className="text-textGrey">
               Từ playList{" "}
               <span
@@ -91,6 +90,7 @@ const SidebarRight = () => {
                 {currentSongData?.album?.title}
               </span>
             </span>
+            <span className="font-bold mt-2">Dành cho bạn</span>
           </div>
           <div className=" h-custom">
             <Scrollbars style={{width: "100%", height: "100%"}}>

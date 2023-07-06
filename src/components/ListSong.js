@@ -34,14 +34,16 @@ const ListSong = ({totalDuration, total}) => {
           </div>
         ))}
       </div>
-      <span className="py-[10px] text-textGrey border-t border-t-secondary flex gap-4">
-        <span>{total} bài hát</span>
-        <span>|</span>
-        <span>
-          {moment.utc(totalDuration * 1000).format("H")} giờ{" "}
-          {moment.utc(totalDuration * 1000).format("m")} phút
+      {total && totalDuration && (
+        <span className="py-[10px] text-textGrey border-t border-t-secondary flex gap-4">
+          <span>{total} bài hát</span>
+          <span>|</span>
+          <span>
+            {moment.utc(totalDuration * 1000).format("H")} giờ{" "}
+            {moment.utc(totalDuration * 1000).format("m")} phút
+          </span>
         </span>
-      </span>
+      )}
     </div>
   );
 };

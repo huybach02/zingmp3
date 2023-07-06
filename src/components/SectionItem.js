@@ -1,5 +1,5 @@
 import React from "react";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import icons from "../utils/icon";
 
 const {AiOutlineHeart, BsPlayCircle, BsThreeDots} = icons;
@@ -42,17 +42,24 @@ const SectionItem = ({item}) => {
             ? `${item?.title?.slice(0, 27)}...`
             : item?.title
         }`}</span>
-        <span className="text-textGrey cursor-pointer contents hover:text-select">
+        <span className="text-textGrey contents ">
           {`${
             item?.sortDescription?.length > 27
               ? `${item?.sortDescription?.slice(0, 55)}...`
               : item?.sortDescription
-          }` ||
-            `${
-              item?.artistsNames?.length > 27
-                ? `${item?.artistsNames?.slice(0, 55)}...`
-                : item?.artistsNames
-            }`}
+          }` || (
+            <span className="flex gap-1 flex-wrap">
+              {item?.artists?.map((item) => (
+                <Link
+                  key={item.link}
+                  to={item.link}
+                  className="cursor-pointer hover:text-select"
+                >
+                  {item.name + ", "}
+                </Link>
+              ))}
+            </span>
+          )}
         </span>
       </span>
     </div>
