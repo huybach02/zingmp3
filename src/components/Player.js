@@ -39,8 +39,10 @@ const Player = ({setIsShowRightSidebar}) => {
   const [repeatMode, setRepeatMode] = useState(0);
   const [isLoaded, setIsLoaded] = useState(true);
   const [volumeValue, setVolumeValue] = useState(100);
+  const [isHoverVolumn, setIsHoverVolumn] = useState(false);
   const thumbRef = useRef();
   const trackRef = useRef();
+  const volRef = useRef();
 
   const dispatch = useDispatch();
 
@@ -122,6 +124,12 @@ const Player = ({setIsShowRightSidebar}) => {
 
   useEffect(() => {
     audio.volume = volumeValue / 100;
+  }, [volumeValue]);
+
+  useEffect(() => {
+    if (volRef.current) {
+      volRef.current.style.cssText = `right: ${100 - volumeValue}%`;
+    }
   }, [volumeValue]);
 
   const handleTogglePlayMusic = () => {
@@ -278,7 +286,11 @@ const Player = ({setIsShowRightSidebar}) => {
       </div>
 
       <div className="w-[30%] flex-auto flex items-center justify-end gap-4">
-        <div className="flex items-center">
+        <div
+          className="flex items-center"
+          onMouseEnter={() => setIsHoverVolumn(true)}
+          onMouseLeave={() => setIsHoverVolumn(false)}
+        >
           <span
             onClick={() => setVolumeValue((prev) => (prev <= 0 ? 100 : 0))}
             className="p-3 cursor-pointer rounded-full hover:bg-hover"
@@ -291,6 +303,18 @@ const Player = ({setIsShowRightSidebar}) => {
               <BiSolidVolumeLow size={20} />
             )}
           </span>
+
+          <div
+            className={`w-[100px] h-[5px] bg-progress rounded-l-full rounded-r-full ${
+              isHoverVolumn ? "hidden" : "relative"
+            }`}
+          >
+            <div
+              ref={volRef}
+              className="absolute left-0 top-0 bottom-0 bg-select rounded-l-full rounded-r-full"
+            ></div>
+          </div>
+
           <input
             type="range"
             step={1}
@@ -299,6 +323,7 @@ const Player = ({setIsShowRightSidebar}) => {
             value={volumeValue}
             defaultValue={100}
             onChange={(e) => setVolumeValue(e.target.value)}
+            className={`w-[100px] ${isHoverVolumn ? "block" : "hidden"}`}
           />
         </div>
 

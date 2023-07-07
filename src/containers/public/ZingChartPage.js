@@ -13,7 +13,6 @@ const {BsPlayFill} = icons;
 const ZingChartPage = () => {
   const [chartData, setChartData] = useState();
   const {chart, rank} = useSelector((state) => state.app);
-  console.log("rank: ", rank);
 
   const [data, setData] = useState();
   const chartRef = useRef();

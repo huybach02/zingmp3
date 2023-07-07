@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {Outlet, NavLink, useSearchParams} from "react-router-dom";
+import React from "react";
+import {Outlet, NavLink} from "react-router-dom";
 import {searchMenu} from "../../utils/menu";
 import {useSelector} from "react-redux";
 
