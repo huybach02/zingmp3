@@ -188,10 +188,14 @@ const Player = ({setIsShowRightSidebar}) => {
     <div className="px-5 h-full flex text-white py-2">
       <div className="w-[30%] flex-auto flex items-center gap-3">
         <img
-          src={songInfo?.thumbnail}
+          src={
+            songInfo?.thumbnail ||
+            "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ab52da00-71c2-4ae2-bc2a-3b28214b02c9/df5ivtx-eadd298a-d7bd-474b-8a5c-ac25ae236089.png/v1/fill/w_894,h_894/music_band_logo_design__song_logo_design_png__by_rahatislam11_df5ivtx-pre.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTI4MCIsInBhdGgiOiJcL2ZcL2FiNTJkYTAwLTcxYzItNGFlMi1iYzJhLTNiMjgyMTRiMDJjOVwvZGY1aXZ0eC1lYWRkMjk4YS1kN2JkLTQ3NGItOGE1Yy1hYzI1YWUyMzYwODkucG5nIiwid2lkdGgiOiI8PTEyODAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.stwNmQZaDjjAVXsG4piJptiaoHLXKAsIMa3SAWCoV_c"
+          }
           alt=""
           className="w-16 h-16 object-cover rounded-md"
         />
+
         <div className="flex flex-col ">
           <span className="text-[13px] font-semibold">{songInfo?.title}</span>
           <span className="text-[12px] font-semibold text-textGrey">
@@ -280,7 +284,9 @@ const Player = ({setIsShowRightSidebar}) => {
             ></div>
           </div>
           <span className="text-[12px]">
-            {moment.utc(songInfo?.duration * 1000).format("mm:ss")}
+            {songInfo?.duration
+              ? moment.utc(songInfo?.duration * 1000).format("mm:ss")
+              : "00:00"}
           </span>
         </div>
       </div>

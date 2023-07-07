@@ -65,7 +65,7 @@ const SidebarRight = () => {
         </span>
       </div>
 
-      {!isRecent && (
+      {!isRecent && currentSongData?.thumbnail && (
         <div className="w-full flex flex-col flex-none">
           <SongItem
             thumbnail={currentSongData?.thumbnail}
